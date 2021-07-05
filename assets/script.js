@@ -16,7 +16,6 @@ var getCurrentWeather = function() {
         (response ) => {
             return response.json()}
         ).then((data) => {
-            // console.log(data)
 
             //creating card container
             var card = document.createElement("div");
@@ -56,30 +55,58 @@ var getCurrentWeather = function() {
 
             card.append(index);
             currentDiv.append(card);
-                
             })
-
         });
-    // create elements (parent: card , child elements: wind, temp, humid, uv)
 
+    
     var forecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + input + "&appid=" + apiKey + "&units=imperial";
-
-
-
 
     fetch(forecast)
     .then((response) => {
             return response.json()}
         ).then((data) => {
-            console.log(data);
+            // console.log(data);
 
-        // var dailyTemp = [1, 2, 3, 4, 5];
+    var dailyWeather = [{
+            temp: data.list[3].main.temp,
+            wind: data.list[3].wind.speed,
+            humid: data.list[3].main.humidity
+        },
+        {
+            temp: data.list[11].main.temp,
+            wind: data.list[11].wind.speed,
+            humid: data.list[11].main.humidity
+        },
+        {
+            temp: data.list[19].main.temp,
+            wind: data.list[19].wind.speed,
+            humid: data.list[19].main.humidity
+        },
+        {
+            temp: data.list[27].main.temp,
+            wind: data.list[27].wind.speed,
+            humid: data.list[27].main.humidity
+        },
+        {
+            temp: data.list[35].main.temp,
+            wind: data.list[35].wind.speed,
+            humid: data.list[35].main.humidity
+        }
+    ];
+    
 
-        // for (let i = 0; i < dailyTemp.length; i++) {
-        //     // var date = response.list[((i + 1) * 8) -1 ].data.list;
-        //     console.log(date);
-            
-        // }
+
+    for (let i = 0; i < dailyWeather.length; i++) {
+        console.log(dailyWeather.length);
+
+
+
+
+
+
+        // card.append(dailyTemp);
+        // future.append(card);
+        }
 
 
 
