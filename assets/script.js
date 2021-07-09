@@ -30,10 +30,10 @@ var getCurrentWeather = function(input) {
             title.textContent = input;
 
             var temp = document.createElement("p");
-            temp.textContent = "Temperature: " + data.main.temp + " F";
+            temp.textContent = "Temp: " + data.main.temp + " F";
 
             var wind = document.createElement("p");
-            wind.textContent = "Wind: " + data.wind.speed + " MPH";
+            wind.textContent = "Wind: " + data.wind.speed + " Mph";
 
             var humidity = document.createElement("p");
             humidity.textContent = "Humidity: " + data.main.humidity + " %";
@@ -70,15 +70,12 @@ var getCurrentWeather = function(input) {
     function weeklyForecast () {
     var forecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + input + "&appid=" + apiKey + "&units=imperial";
 
-    // var sevenDay = "http://api.openweathermap.org/data/2.5/forecast/daily?q=" + input + "&appid=" + apiKey + "&units=imperial";
 
     fetch(forecast)
     .then((response) => {
             return response.json()}
         ).then((data) => {
         var dailyWeather = data.list;
-        // console.log(dailyWeather);
-        var weeklyWeather = [];
 
         for (let i = 0; i < dailyWeather.length; i++) {
 
@@ -91,38 +88,22 @@ var getCurrentWeather = function(input) {
                 card.classList.add("col-sm-2");
 
                 var tempEl = document.createElement("p");
-                tempEl.textContent = "Temperature: " + dailyWeather[i].main.temp;
+                tempEl.textContent = "Temp: " + dailyWeather[i].main.temp;
 
-
-
-
-                var todayDate = document.createElement('h2');
+                var todayDate = document.createElement('h4');
                 todayDate.innerHTML =  new Date(dailyWeather[i].dt_txt).toLocaleDateString();
 
-                card.append(todayDate, tempEl);
+                var windEl = document.createElement("p");
+                windEl.textContent = "Wind: " + dailyWeather[i].wind.speed + ' Mph'
+
+                var humidEl = document.createElement("p");
+                humidEl.innerHTML = "Humidity: " + dailyWeather[i].main.humidity + "%";
+
+                card.append(todayDate, tempEl, windEl, humidEl);
                 future.append(card)
 
-
             };
-
-     
-            // console.log(element);
-           // var dailyString = element.toString();
-            // console.log(dailyString);
-           // var date = new Date(dailyString);
-            // console.log(date);
-        //    var hours = date.getHours();
-          //  console.log('The time now is ' + hours);
-
-
-        //     // weeklyWeather.push(hours);
-        //     // console.log(weeklyWeather);
-
         }
-
-
-
-
         });
     }
     weeklyForecast()
@@ -142,9 +123,6 @@ function makeRow(city){
             
         }
     }
-    //if history array length is mnore then 0
-    //      --loop array
-    //          - make row give give content and append
 }
 
 function getSearch(){
@@ -156,7 +134,5 @@ function getSearch(){
 };
 
 var historyArr = localStorage.getItem('history') || [];
-
-
 
 searchBtn.addEventListener('click', getSearch)

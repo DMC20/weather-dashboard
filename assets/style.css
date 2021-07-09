@@ -1,3 +1,7 @@
 #current{
     display: none;
 }
+
+.futureWeather {
+justify-content: space-between;
+border: solid black;}
