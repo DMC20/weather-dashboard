@@ -125,14 +125,14 @@ function makeRow(city) {
     // if it dosent push into history array
     if(cityArr.length > 0){
         for (let i = 0; i < cityArr.length; i++) {
-            var card = document.createElement('ul');
-            card.classList.add('li');
+            var searchField = document.createElement('ul');
+            searchField.classList.add('li');
 
             var searchHistory = document.createElement('button');
             searchHistory.innerHTML = cityArr;
 
-            card.append(cityArr);
-            citySearch.append(card);
+            searchField.append(searchHistory);
+            citySearch.append(searchField);
         }
     }
 }
