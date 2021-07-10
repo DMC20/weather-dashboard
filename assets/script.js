@@ -1,6 +1,7 @@
 var searchBtn = document.getElementById('searchBtn');
 var currentDiv = document.getElementById("current")
 var future = document.getElementById('futureWeather');
+var citySearch = document.getElementById('citySearch');
 
 
 // openweather api key
@@ -13,13 +14,13 @@ var getCurrentWeather = function(input) {
     var input = document.getElementById("searchCity").value;
 
     var url = "http://api.openweathermap.org/data/2.5/weather?q=" + input + "&appid=" + apiKey + "&units=imperial";
-    
+
     fetch(url)
     .then(
         (response ) => {
             return response.json()}
         ).then((data) => {
-            // console.log(data);
+            // console.log(data)
 
             //creating card container
             var card = document.createElement("div");
@@ -27,7 +28,7 @@ var getCurrentWeather = function(input) {
 
             var title = document.createElement("h3");
             title.classList.add("cityName");
-            title.textContent = input;
+            title.textContent = input + " " + data.weather[0].description;
 
             var temp = document.createElement("p");
             temp.textContent = "Temp: " + data.main.temp + " F";
@@ -54,18 +55,22 @@ var getCurrentWeather = function(input) {
             .then((response) => {
                 return response.json()
             }).then((data1) => {
+                // console.log(data1);
 
             var card = document.createElement("div");
-            card.classList.add("currentWeather");
+            card.classList.add("currentIndex");
 
             var index = document.createElement("p");
             index.textContent = "UV Index: " + data1.current.uvi;
 
+       
             card.append(index);
-            currentDiv.append(card);      
-                        
+            currentDiv.append(card);
+
             })
         });
+        clearData();
+        
 
     function weeklyForecast () {
     var forecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + input + "&appid=" + apiKey + "&units=imperial";
@@ -76,21 +81,21 @@ var getCurrentWeather = function(input) {
             return response.json()}
         ).then((data) => {
         var dailyWeather = data.list;
+        console.log(dailyWeather);
 
         for (let i = 0; i < dailyWeather.length; i++) {
 
             if(dailyWeather[i].dt_txt.indexOf('15:00:00') !== -1){
-
-                console.log(dailyWeather[i])
+                // console.log(dailyWeather[i])
 
                 var card = document.createElement("div");
                 card.classList.add("forecast");
-                card.classList.add("col-sm-2");
+                card.classList.add("col-md-2");
 
                 var tempEl = document.createElement("p");
-                tempEl.textContent = "Temp: " + dailyWeather[i].main.temp;
+                tempEl.textContent = dailyWeather[i].weather[0].description + '' + "Temp: " + dailyWeather[i].main.temp;
 
-                var todayDate = document.createElement('h4');
+                var todayDate = document.createElement('h5');
                 todayDate.innerHTML =  new Date(dailyWeather[i].dt_txt).toLocaleDateString();
 
                 var windEl = document.createElement("p");
@@ -105,25 +110,33 @@ var getCurrentWeather = function(input) {
             };
         }
         });
+        clearWeekly();
     }
     weeklyForecast()
 };
 
-function makeRow(city){
+function makeRow(city) {
  
     //check to see if current search value exists in history 
-    if(historyArr.indexOf(city) === -1){
-        historyArr.push(city);
-        localStorage.setItem('history', JSON.stringify(historyArr))
+    if(cityArr.indexOf(city) === -1){
+        cityArr.push(city);
+        localStorage.setItem('history', JSON.stringify(cityArr))
     }
     // if it dosent push into history array
-    if(historyArr.length > 0){
-        for (let i = 0; i < historyArr.length; i++) {
-            console.log(historyArr[i])
-            
+    if(cityArr.length > 0){
+        for (let i = 0; i < cityArr.length; i++) {
+            var card = document.createElement('ul');
+            card.classList.add('li');
+
+            var searchHistory = document.createElement('button');
+            searchHistory.innerHTML = cityArr;
+
+            card.append(cityArr);
+            citySearch.append(card);
         }
     }
 }
+
 
 function getSearch(){
 
@@ -133,6 +146,18 @@ function getSearch(){
     makeRow(city);
 };
 
-var historyArr = localStorage.getItem('history') || [];
+function clearData () {
+    while (currentDiv.firstChild) {
+        currentDiv.removeChild(currentDiv.firstChild);
+    }
+}
+
+function clearWeekly () {
+    while(future.firstChild) {
+        future.removeChild(future.firstChild);
+    }
+}
+
+var cityArr = localStorage.getItem('history') || [];
 
 searchBtn.addEventListener('click', getSearch)
