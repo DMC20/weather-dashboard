@@ -27,7 +27,11 @@ var getCurrentWeather = function(input) {
 
             var title = document.createElement("h3");
             title.classList.add("cityName");
-            title.textContent = input + " " + data.weather[0].description;
+            title.textContent = input + " ";
+
+            var image = document.createElement('img')
+            image.src = "http://openweathermap.org/img/w/" + iconPic + ".png";
+            var iconPic = data.weather[0].icon;
 
             var temp = document.createElement("p");
             temp.textContent = "Temp: " + data.main.temp + " F";
@@ -41,7 +45,7 @@ var getCurrentWeather = function(input) {
             var todayDate = document.createElement('h2');
             todayDate.innerHTML =  moment().format('MMMM Do YYYY');
 
-            card.append(todayDate, title, temp, wind, humidity);
+            card.append(todayDate, image, title, temp, wind, humidity);
             currentDiv.append(card);
 
             var lat = data.coord.lat;
@@ -83,6 +87,10 @@ var getCurrentWeather = function(input) {
                 weekly.classList.add('forecast');
                 weekly.classList.add('col-md-2');
 
+                var image = document.createElement('img')
+                image.src = "http://openweathermap.org/img/w/" + iconPic + ".png";
+                var iconPic = data.daily[i].weather[0].icon;
+
                 var date = document.createElement('h5');
                 date.innerHTML = moment.unix(data.daily[i].dt).format('MM/DD/YY');
 
@@ -93,11 +101,10 @@ var getCurrentWeather = function(input) {
                 var windEl = document.createElement('p');
                 windEl.textContent = "Wind Speed: " + data.daily[i].wind_speed + ' Mph';
                 
-                
                 var humidEl = document.createElement('p');
-                humidEl.textContent = 'Humid: ' + data.daily[i].humidity + ' %';
+                humidEl.textContent = 'Humidity: ' + data.daily[i].humidity + ' %';
                 
-                weekly.append(date, dailyTemp, humidEl, windEl);
+                weekly.append(date, image, dailyTemp, humidEl, windEl);
                 future.append(weekly);
               }
             })
@@ -117,7 +124,6 @@ var getCurrentWeather = function(input) {
             future.removeChild(future.firstChild);
         }
     }
-
 
     var cityArr = localStorage.getItem('history') || [];
 
@@ -140,18 +146,17 @@ var getCurrentWeather = function(input) {
         // if it dosent push into history array
         if(cityArr.length > 0){
             for (let i = 0; i < cityArr.length; i++) {
-                var list = document.createElement('button')
-                list.classList.add('btn btn-primary');
+                var list = document.createElement('div')
+                list.classList.add('ul');
 
+                var cities = document.createElement('button');
+                cities.innerHTML = cityArr[i].value
                 
-                
-
-                // list.append(history);
-                // searchCity.append(list);
-
+                list.append(cities);
+                searchCity.append(list);
             }
         }
     }
 
 
-searchBtn.addEventListener('click', getSearch)
+searchBtn.addEventListener('click', getCurrentWeather)
