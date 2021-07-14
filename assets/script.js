@@ -19,7 +19,7 @@ var getCurrentWeather = function(input) {
         (response ) => {
             return response.json()}
         ).then((data) => {
-            // console.log(data)
+            console.log(data)
 
             //creating card container
             var card = document.createElement("div");
@@ -88,7 +88,7 @@ var getCurrentWeather = function(input) {
                 weekly.classList.add('col-md-2');
 
                 var image = document.createElement('img')
-                image.src = "http://openweathermap.org/img/w/" + iconPic + ".png";
+                image.src = "https://openweathermap.org/img/w/" + iconPic + ".png";
                 var iconPic = data.daily[i].weather[0].icon;
 
                 var date = document.createElement('h5');
