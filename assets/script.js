@@ -1,8 +1,7 @@
 var searchBtn = document.getElementById('searchBtn');
 var currentDiv = document.getElementById("current")
 var future = document.getElementById('futureWeather');
-var citySearch = document.getElementById('citySearch');
-
+var searchCity = document.getElementById('searchCity');
 
 // openweather api key
 var apiKey = 'e79c76975ad2637930a749ca25f1b0f0';
@@ -71,6 +70,8 @@ var getCurrentWeather = function(input) {
                 index.classList.add("moderate");
               } else if (uvValue > 6.5 &&  uvValue <= 10){
                 index.classList.add("high");
+              } else if (uvValue > 10){
+                index.classList.add('extreme');
               }
 
 
@@ -94,11 +95,11 @@ var getCurrentWeather = function(input) {
                 dailyTemp.textContent = "Temperature: " + tempEl;
 
                 var windEl = document.createElement('p');
-                windEl.textContent = "Wind: " + data.daily[i].wind_speed + ' Mph';
+                windEl.textContent = "Wind Speed: " + data.daily[i].wind_speed + ' Mph';
                 
                 
                 var humidEl = document.createElement('p');
-                humidEl.textContent = 'Humidity ' + data.daily[i].humidity + ' %';
+                humidEl.textContent = 'Humid: ' + data.daily[i].humidity + ' %';
                 
                 weekly.append(date, dailyTemp, humidEl, windEl);
                 future.append(weekly);
@@ -121,32 +122,32 @@ var getCurrentWeather = function(input) {
         }
     }
 
-function makeRow(city) {
- 
-    //check to see if current search value exists in history 
-    if(cityArr.indexOf(city) === -1){
-        cityArr.push(city);
-        localStorage.setItem('history', JSON.stringify(cityArr))
-    }
-    // if it dosent push into history array
-    if(cityArr.length > 0){
-        for (let i = 0; i < cityArr.length; i++) {
-            
 
+    var cityArr = localStorage.getItem('history') || [];
 
+    function getSearch( ) {
+        var city = document.getElementById('searchCity').value;
+
+        getCurrentWeather(city);
+        makeRow(city);
+    };
+     
+
+    function makeRow(city) {
+    
+        //check to see if current search value exists in history 
+        if(cityArr.indexOf(city) === -1){
+            cityArr.push(city);
+            localStorage.setItem('history', JSON.stringify(cityArr))
+        }
+        // if it dosent push into history array
+        if(cityArr.length > 0){
+            for (let i = 0; i < cityArr.length; i++) {
+                
+
+            }
         }
     }
-}
-
-function getSearch(){
-
-    var city = document.getElementById("searchCity").value;
-
-    getCurrentWeather(city);
-    makeRow(city);
-};
 
 
-var cityArr = localStorage.getItem('history') || [];
-
-searchBtn.addEventListener('click', getCurrentWeather)
+searchBtn.addEventListener('click', getSearch)

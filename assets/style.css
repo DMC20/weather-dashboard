@@ -26,8 +26,17 @@
   }
   
   .high {
+    background-color: orange;
+    color: white;
+    width: 125px;
+    border-radius: 5px;
+  }
+
+  .extreme {
     background-color: red;
     color: white;
     width: 125px;
     border-radius: 5px;
   }
+
+  
