@@ -40,80 +40,86 @@ var getCurrentWeather = function(input) {
             humidity.textContent = "Humidity: " + data.main.humidity + " %";
 
             var todayDate = document.createElement('h2');
-            card.append(todayDate);
             todayDate.innerHTML =  moment().format('MMMM Do YYYY');
 
-            card.append(title, temp, wind, humidity);
+            card.append(todayDate, title, temp, wind, humidity);
             currentDiv.append(card);
 
             var lat = data.coord.lat;
             var long = data.coord.lon;
 
-            var uvIndex = "http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&appid=" + apiKey;
+            var uvIndex = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&appid=" + apiKey;
 
             fetch(uvIndex)
             .then((response) => {
                 return response.json()
-            }).then((data1) => {
-                // console.log(data1);
+            }).then((data) => {
+                // console.log(data);
 
-            var card = document.createElement("div");
-            card.classList.add("currentIndex");
+            var uvValue = data.current.uvi;
+
+            document.getElementById('currentWeather');
 
             var index = document.createElement("p");
-            index.textContent = "UV Index: " + data1.current.uvi;
-
+            index.textContent = "UV Index: " + uvValue;
        
             card.append(index);
-            currentDiv.append(card);
 
+            if (uvValue > 0 && uvValue <= 3.5){
+                index.classList.add('low');
+              } else if (uvValue > 3.5 &&  uvValue <= 6.5){
+                index.classList.add("moderate");
+              } else if (uvValue > 6.5 &&  uvValue <= 10){
+                index.classList.add("high");
+              }
+
+
+            var fiveDay = [1, 2, 3, 4 ,5];
+
+            for (var i = 0; i < fiveDay.length; i++) {
+
+                var weekly = document.createElement('div')
+                weekly.classList.add('forecast');
+                weekly.classList.add('col-md-2');
+
+                var date = document.createElement('h5');
+                date.innerHTML = moment.unix(data.daily[i].dt).format('MM/DD/YY');
+
+                // var icon = document.createElement('img src');
+                
+
+                
+                var dailyTemp = document.createElement('p')
+                var tempEl = Math.round(((parseFloat(data.daily[i].temp.day)-273.15)*1.8)+32) + ' F';   
+                dailyTemp.textContent = "Temperature: " + tempEl;
+
+                var windEl = document.createElement('p');
+                windEl.textContent = "Wind: " + data.daily[i].wind_speed + ' Mph';
+                
+                
+                var humidEl = document.createElement('p');
+                humidEl.textContent = 'Humidity ' + data.daily[i].humidity + ' %';
+                
+                weekly.append(date, dailyTemp, humidEl, windEl);
+                future.append(weekly);
+              }
             })
+            clearWeekly()
         });
         clearData();
-        
+    };
 
-    function weeklyForecast () {
-    var forecast = "http://api.openweathermap.org/data/2.5/forecast?q=" + input + "&appid=" + apiKey + "&units=imperial";
-
-
-    fetch(forecast)
-    .then((response) => {
-            return response.json()}
-        ).then((data) => {
-        var dailyWeather = data.list;
-        console.log(dailyWeather);
-
-        for (let i = 0; i < dailyWeather.length; i++) {
-
-            if(dailyWeather[i].dt_txt.indexOf('15:00:00') !== -1){
-                // console.log(dailyWeather[i])
-
-                var card = document.createElement("div");
-                card.classList.add("forecast");
-                card.classList.add("col-md-2");
-
-                var tempEl = document.createElement("p");
-                tempEl.textContent = dailyWeather[i].weather[0].description + '' + "Temp: " + dailyWeather[i].main.temp;
-
-                var todayDate = document.createElement('h5');
-                todayDate.innerHTML =  new Date(dailyWeather[i].dt_txt).toLocaleDateString();
-
-                var windEl = document.createElement("p");
-                windEl.textContent = "Wind: " + dailyWeather[i].wind.speed + ' Mph'
-
-                var humidEl = document.createElement("p");
-                humidEl.innerHTML = "Humidity: " + dailyWeather[i].main.humidity + "%";
-
-                card.append(todayDate, tempEl, windEl, humidEl);
-                future.append(card)
-
-            };
+    function clearData () {
+        while (currentDiv.firstChild) {
+            currentDiv.removeChild(currentDiv.firstChild);
         }
-        });
-        clearWeekly();
     }
-    weeklyForecast()
-};
+    
+    function clearWeekly () {
+        while(future.firstChild) {
+            future.removeChild(future.firstChild);
+        }
+    }
 
 function makeRow(city) {
  
@@ -125,18 +131,12 @@ function makeRow(city) {
     // if it dosent push into history array
     if(cityArr.length > 0){
         for (let i = 0; i < cityArr.length; i++) {
-            var searchField = document.createElement('ul');
-            searchField.classList.add('li');
+            
 
-            var searchHistory = document.createElement('button');
-            searchHistory.innerHTML = cityArr;
 
-            searchField.append(searchHistory);
-            citySearch.append(searchField);
         }
     }
 }
-
 
 function getSearch(){
 
@@ -146,18 +146,7 @@ function getSearch(){
     makeRow(city);
 };
 
-function clearData () {
-    while (currentDiv.firstChild) {
-        currentDiv.removeChild(currentDiv.firstChild);
-    }
-}
-
-function clearWeekly () {
-    while(future.firstChild) {
-        future.removeChild(future.firstChild);
-    }
-}
 
 var cityArr = localStorage.getItem('history') || [];
 
-searchBtn.addEventListener('click', getSearch)
+searchBtn.addEventListener('click', getCurrentWeather)
