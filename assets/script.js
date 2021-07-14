@@ -86,10 +86,6 @@ var getCurrentWeather = function(input) {
                 var date = document.createElement('h5');
                 date.innerHTML = moment.unix(data.daily[i].dt).format('MM/DD/YY');
 
-                // var icon = document.createElement('img src');
-                
-
-                
                 var dailyTemp = document.createElement('p')
                 var tempEl = Math.round(((parseFloat(data.daily[i].temp.day)-273.15)*1.8)+32) + ' F';   
                 dailyTemp.textContent = "Temperature: " + tempEl;
@@ -127,6 +123,7 @@ var getCurrentWeather = function(input) {
 
     function getSearch( ) {
         var city = document.getElementById('searchCity').value;
+        // console.log(city);
 
         getCurrentWeather(city);
         makeRow(city);
@@ -143,7 +140,14 @@ var getCurrentWeather = function(input) {
         // if it dosent push into history array
         if(cityArr.length > 0){
             for (let i = 0; i < cityArr.length; i++) {
+                var list = document.createElement('button')
+                list.classList.add('btn btn-primary');
+
                 
+                
+
+                // list.append(history);
+                // searchCity.append(list);
 
             }
         }
