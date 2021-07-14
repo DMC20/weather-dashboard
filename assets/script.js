@@ -13,9 +13,9 @@ var getCurrentWeather = function(input) {
 
     var input = document.getElementById("searchCity").value;
 
-    var url = "https://api.openweathermap.org/data/2.5/weather?q=" + input + "&appid=" + apiKey + "&units=imperial";
+    // var url = "https://api.openweathermap.org/data/2.5/weather?q=" + input + "&appid=" + apiKey + "&units=imperial";
 
-    fetch(url)
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + input + "&appid=" + apiKey + "&units=imperial")
     .then(
         (response ) => {
             return response.json()}
@@ -48,9 +48,9 @@ var getCurrentWeather = function(input) {
             var lat = data.coord.lat;
             var long = data.coord.lon;
 
-            var uvIndex = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&appid=" + apiKey;
+            // var uvIndex = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&appid=" + apiKey;
 
-            fetch(uvIndex)
+            fetch("https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + long + "&appid=" + apiKey)
             .then((response) => {
                 return response.json()
             }).then((data) => {
