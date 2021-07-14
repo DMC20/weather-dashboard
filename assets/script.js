@@ -13,7 +13,7 @@ var getCurrentWeather = function(input) {
 
     var input = document.getElementById("searchCity").value;
 
-    var url = "http://api.openweathermap.org/data/2.5/weather?q=" + input + "&appid=" + apiKey + "&units=imperial";
+    var url = "https://api.openweathermap.org/data/2.5/weather?q=" + input + "&appid=" + apiKey + "&units=imperial";
 
     fetch(url)
     .then(
