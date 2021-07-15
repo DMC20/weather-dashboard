@@ -19,7 +19,7 @@ var getCurrentWeather = function(input) {
         (response ) => {
             return response.json()}
         ).then((data) => {
-            console.log(data)
+            // console.log(data)
 
             //creating card container
             var card = document.createElement("div");
@@ -130,6 +130,21 @@ var getCurrentWeather = function(input) {
     function getSearch( ) {
         var city = document.getElementById('searchCity').value;
         // console.log(city);
+        if(cityArr.indexOf(city) === -1){
+            cityArr.push(city);
+            localStorage.setItem('history', JSON.stringify(cityArr))
+
+            cityArr = JSON.parse(localStorage.getItem('history'));
+        }
+        // if it dosent push into history array
+        if(cityArr.length > 0){
+            for (let i = 0; i < cityArr.length; i++) {
+                var list =  document.createElement('button');
+
+                searchCity.append(list, cityArr);
+               
+            }
+        }
 
         getCurrentWeather(city);
         makeRow(city);
@@ -142,21 +157,19 @@ var getCurrentWeather = function(input) {
         if(cityArr.indexOf(city) === -1){
             cityArr.push(city);
             localStorage.setItem('history', JSON.stringify(cityArr))
+
+            cityArr = JSON.parse(localStorage.getItem('history'));
         }
         // if it dosent push into history array
         if(cityArr.length > 0){
             for (let i = 0; i < cityArr.length; i++) {
-                var list = document.createElement('div')
-                list.classList.add('ul');
+                var list =  document.createElement('button');
 
-                var cities = document.createElement('button');
-                cities.innerHTML = cityArr[i].value
-                
-                list.append(cities);
-                searchCity.append(list);
+                searchCity.append(list, cityArr);
+               
             }
         }
     }
 
 
-searchBtn.addEventListener('click', getCurrentWeather)
+searchBtn.addEventListener('click', getSearch)
