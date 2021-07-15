@@ -130,21 +130,6 @@ var getCurrentWeather = function(input) {
     function getSearch( ) {
         var city = document.getElementById('searchCity').value;
         // console.log(city);
-        if(cityArr.indexOf(city) === -1){
-            cityArr.push(city);
-            localStorage.setItem('history', JSON.stringify(cityArr))
-
-            cityArr = JSON.parse(localStorage.getItem('history'));
-        }
-        // if it dosent push into history array
-        if(cityArr.length > 0){
-            for (let i = 0; i < cityArr.length; i++) {
-                var list =  document.createElement('button');
-
-                searchCity.append(list, cityArr);
-               
-            }
-        }
 
         getCurrentWeather(city);
         makeRow(city);
@@ -153,19 +138,22 @@ var getCurrentWeather = function(input) {
 
     function makeRow(city) {
     
-        //check to see if current search value exists in history 
-        if(cityArr.indexOf(city) === -1){
-            cityArr.push(city);
-            localStorage.setItem('history', JSON.stringify(cityArr))
+        // //check to see if current search value exists in history 
+        // if(cityArr.indexOf(city) === -1){
+        //     // cityArr.push(city);
+        //     localStorage.setItem('history', JSON.stringify(cityArr))
 
-            cityArr = JSON.parse(localStorage.getItem('history'));
-        }
+        //     // cityArr = JSON.parse(localStorage.getItem('history'));
+        // }
         // if it dosent push into history array
         if(cityArr.length > 0){
             for (let i = 0; i < cityArr.length; i++) {
                 var list =  document.createElement('button');
 
-                searchCity.append(list, cityArr);
+                cityArr = JSON.parse(localStorage.getItem('history'));
+
+
+                searchCity.append(list, city);
                
             }
         }
