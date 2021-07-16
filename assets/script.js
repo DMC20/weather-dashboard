@@ -1,7 +1,7 @@
 var searchBtn = document.getElementById('searchBtn');
 var currentDiv = document.getElementById("current")
 var future = document.getElementById('futureWeather');
-// var searchCity = document.getElementById('searchCity');
+var searchCity = document.getElementById('searchCity');
 
 // openweather api key
 var apiKey = 'e79c76975ad2637930a749ca25f1b0f0';
@@ -125,17 +125,7 @@ var getCurrentWeather = function(input) {
         }
     }
 
-    // var cityArr = localStorage.getItem('history') || [];
-
-    // function getSearch( ) {
-    //     var city = document.getElementById('searchCity').value;
-    //     // console.log(city);
-
-    //     getCurrentWeather(city);
-    //     makeRow(city);
-    // };
-     
-
+ 
     // function makeRow(city) {
     
     //     // //check to see if current search value exists in history 
@@ -158,6 +148,8 @@ var getCurrentWeather = function(input) {
     //         }
     //     }
     // }
+
+    // var cityArr = localStorage.getItem('history') || []
 
 
 searchBtn.addEventListener('click', getCurrentWeather)
