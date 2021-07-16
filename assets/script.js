@@ -160,4 +160,4 @@ var getCurrentWeather = function(input) {
     // }
 
 
-searchBtn.addEventListener('click', getSearch)
+searchBtn.addEventListener('click', getCurrentWeather)
