@@ -1,7 +1,7 @@
 var searchBtn = document.getElementById('searchBtn');
 var currentDiv = document.getElementById("current")
 var future = document.getElementById('futureWeather');
-var searchCity = document.getElementById('searchCity');
+// var searchCity = document.getElementById('searchCity');
 
 // openweather api key
 var apiKey = 'e79c76975ad2637930a749ca25f1b0f0';
@@ -125,39 +125,39 @@ var getCurrentWeather = function(input) {
         }
     }
 
-    var cityArr = localStorage.getItem('history') || [];
+    // var cityArr = localStorage.getItem('history') || [];
 
-    function getSearch( ) {
-        var city = document.getElementById('searchCity').value;
-        // console.log(city);
+    // function getSearch( ) {
+    //     var city = document.getElementById('searchCity').value;
+    //     // console.log(city);
 
-        getCurrentWeather(city);
-        makeRow(city);
-    };
+    //     getCurrentWeather(city);
+    //     makeRow(city);
+    // };
      
 
-    function makeRow(city) {
+    // function makeRow(city) {
     
-        // //check to see if current search value exists in history 
-        // if(cityArr.indexOf(city) === -1){
-        //     // cityArr.push(city);
-        //     localStorage.setItem('history', JSON.stringify(cityArr))
+    //     // //check to see if current search value exists in history 
+    //     // if(cityArr.indexOf(city) === -1){
+    //     //     // cityArr.push(city);
+    //     //     localStorage.setItem('history', JSON.stringify(cityArr))
 
-        //     // cityArr = JSON.parse(localStorage.getItem('history'));
-        // }
-        // if it dosent push into history array
-        if(cityArr.length > 0){
-            for (let i = 0; i < cityArr.length; i++) {
-                var list =  document.createElement('button');
+    //     //     // cityArr = JSON.parse(localStorage.getItem('history'));
+    //     // }
+    //     // if it dosent push into history array
+    //     if(cityArr.length > 0){
+    //         for (let i = 0; i < cityArr.length; i++) {
+    //             var list =  document.createElement('button');
 
-                cityArr = JSON.parse(localStorage.getItem('history'));
+    //             cityArr = JSON.parse(localStorage.getItem('history'));
 
 
-                searchCity.append(list, city);
+    //             searchCity.append(list, city);
                
-            }
-        }
-    }
+    //         }
+    //     }
+    // }
 
 
 searchBtn.addEventListener('click', getSearch)
