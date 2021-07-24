@@ -19,7 +19,7 @@ var getCurrentWeather = function(input) {
         (response ) => {
             return response.json()}
         ).then((data) => {
-            // console.log(data)
+            console.log(data)
 
             //creating card container
             var card = document.createElement("div");
@@ -30,8 +30,9 @@ var getCurrentWeather = function(input) {
             title.textContent = input + " ";
 
             var image = document.createElement('img')
-            image.src = "http://openweathermap.org/img/w/" + iconPic + ".png";
             var iconPic = data.weather[0].icon;
+            image.src = "http://openweathermap.org/img/w/" + iconPic + ".png";
+
 
             var temp = document.createElement("p");
             temp.textContent = "Temp: " + data.main.temp + " F";
@@ -80,6 +81,14 @@ var getCurrentWeather = function(input) {
 
 
             var fiveDay = [1, 2, 3, 4 ,5];
+            
+            var descriptor = document.createElement('div')
+            descriptor.classList.add('header')
+
+            var header = document.createElement('h4')
+            header.textContent = '5 Day Forecast';
+
+
 
             for (var i = 0; i < fiveDay.length; i++) {
 
@@ -88,8 +97,8 @@ var getCurrentWeather = function(input) {
                 weekly.classList.add('col-md-2');
 
                 var image = document.createElement('img')
-                image.src = "https://openweathermap.org/img/w/" + iconPic + ".png";
                 var iconPic = data.daily[i].weather[0].icon;
+                image.src = "https://openweathermap.org/img/w/" + iconPic + ".png";
 
                 var date = document.createElement('h5');
                 date.innerHTML = moment.unix(data.daily[i].dt).format('MM/DD/YY');
